@@ -4,21 +4,49 @@ class MyTextField extends StatefulWidget {
   _MyTextFieldState createState() => _MyTextFieldState();
 }
 
+enum DialogAction {YES, NO}
 class _MyTextFieldState extends State<MyTextField> {
   String Texto = '';
   final TextEditingController inputText = TextEditingController();
-  void submitText(String value){
+
+  void alertResutl(DialogAction action){
+    print("Tu seleccion fue $action");
+  }
+  void showAlert(){
     setState(() {
-        Texto += value+"\n";
-        inputText.text = '';
+      Texto = inputText.text;
+      inputText.text = '';
     });
+
+    AlertDialog dialog = AlertDialog(
+      content: Text(Texto),
+      actions: <Widget>[
+        FlatButton(
+          child: Text("Si"),
+          onPressed: () {alertResutl(DialogAction.YES);},
+        ) ,
+        FlatButton(
+          child: Text("No"),
+          onPressed: () {alertResutl(DialogAction.NO);},
+        )
+      ],
+    );
+    
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return dialog;
+        }
+    );
+
+
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Textfield App'),
-        backgroundColor: Colors.redAccent,
+        title: Text('Demo alert dialog'),
+        backgroundColor: Colors.blueGrey,
       ),
       body:Container(
         child: Column(
@@ -28,10 +56,12 @@ class _MyTextFieldState extends State<MyTextField> {
               decoration: InputDecoration(
                 hintText: "Ingrese el texto aqui",
               ),
-              onSubmitted: submitText  ,
               controller: inputText,
             ),
-            Text(Texto),
+            RaisedButton(
+              onPressed: showAlert,
+              child: Text('Ver alerta'),
+            ),
           ],
         ),
       )
