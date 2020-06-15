@@ -28,7 +28,7 @@ class _MyTabsState extends State<MyTabs> {
           children: <Widget>[
             Home(),
             Video(),
-            Contacts()
+            Text('hola'),
           ],
         ),
       ),
